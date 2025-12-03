@@ -3,21 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>VALORANT // PROTOCOL</title>
+    <title>VALORANT // PROTOCOL WHITE</title>
     <link href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,400;0,600;0,900;1,900&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         :root {
             --val-red: #ff4655;
-            --val-dark: #0f1923;
-            --val-black: #000000;
-            --val-white: #ece8e1;
+            --val-dark: #0f1923; /* Dark text */
+            --val-white: #ece8e1; /* Light background */
+            --val-pure-white: #ffffff;
             --val-green: #22c55e;
         }
 
         body {
-            background-color: var(--val-dark);
-            color: var(--val-white);
+            background-color: var(--val-white);
+            color: var(--val-dark);
             font-family: 'Kanit', sans-serif;
             overflow: hidden;
             touch-action: none;
@@ -25,13 +25,13 @@
             cursor: crosshair;
         }
 
-        /* --- TACTICAL BACKGROUND --- */
+        /* --- TACTICAL BACKGROUND (LIGHT THEME) --- */
         .bg-tactical {
-            background-color: #0f1923;
+            background-color: #ece8e1;
             background-image: 
-                linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-                radial-gradient(circle at 50% 50%, rgba(20, 30, 45, 0) 0%, rgba(0, 0, 0, 0.6) 100%);
+                linear-gradient(rgba(15, 25, 35, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(15, 25, 35, 0.05) 1px, transparent 1px),
+                radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.8) 100%);
             background-size: 50px 50px, 50px 50px, 100% 100%;
         }
 
@@ -55,7 +55,8 @@
             width: 100%;
             height: 100%;
             object-fit: contain;
-            filter: drop-shadow(0 10px 10px rgba(0,0,0,0.5));
+            /* Darker shadow for light background */
+            filter: drop-shadow(0 10px 10px rgba(15, 25, 35, 0.4));
         }
 
         /* --- FALLING ITEMS --- */
@@ -72,28 +73,29 @@
             width: 100%;
             height: 100%;
             object-fit: contain;
-            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3));
+            filter: drop-shadow(0 5px 8px rgba(0,0,0,0.25));
         }
 
         /* --- UI ELEMENTS --- */
         .val-header {
-            text-shadow: 0 4px 0 rgba(0,0,0,0.5);
+            text-shadow: 0 4px 0 rgba(255,255,255,0.5); /* Light shadow for depth */
             letter-spacing: 0.1em;
+            color: var(--val-dark);
         }
 
         /* --- ANIMATIONS --- */
         @keyframes catch-pop {
             0% { transform: scale(1); filter: brightness(1); }
-            50% { transform: scale(1.2); filter: brightness(1.5); }
+            50% { transform: scale(1.2); filter: brightness(1.2); }
             100% { transform: scale(1); filter: brightness(1); }
         }
         .pop-anim { animation: catch-pop 0.15s ease-out; }
 
-        /* --- LOADER --- */
+        /* --- LOADER (LIGHT THEME) --- */
         #loader {
             position: fixed;
             inset: 0;
-            background: #0f1923;
+            background: #ece8e1;
             z-index: 999;
             display: flex;
             flex-direction: column;
@@ -103,7 +105,7 @@
         .loader-bar {
             width: 200px;
             height: 4px;
-            background: #333;
+            background: #d1d5db; /* Light grey track */
             margin-top: 20px;
             position: relative;
             overflow: hidden;
@@ -122,7 +124,7 @@
         .upload-track {
             width: 100%;
             height: 8px;
-            background: #333;
+            background: #d1d5db;
             margin-top: 10px;
             position: relative;
         }
@@ -150,9 +152,26 @@
             transform: scale(1);
         }
         .checkmark {
-            color: #0f1923;
+            color: #ffffff;
             font-size: 40px;
             font-weight: 900;
+        }
+
+        /* Inventory Row Styling (Light Theme) */
+        .inv-row {
+            background: rgba(255, 255, 255, 0.9);
+            border-right-width: 4px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        /* Modal Input Styling */
+        #riot-id {
+            background: transparent;
+            color: #0f1923;
+            border-bottom: 1px solid #9ca3af;
+        }
+        #riot-id:focus {
+            border-bottom-color: #ff4655;
         }
 
     </style>
@@ -161,12 +180,12 @@
 
     <!-- LOADING SCREEN -->
     <div id="loader">
-        <h1 class="text-4xl font-black italic text-white uppercase tracking-widest"></h1>
+        <h1 class="text-4xl font-black italic text-[#0f1923] uppercase tracking-widest">LOADING ASSETS</h1>
         <div class="loader-bar">
             <div id="loader-progress" class="loader-progress"></div>
         </div>
         <p id="loader-text" class="text-xs text-gray-500 mt-2 font-mono">INITIALIZING PROTOCOL...</p>
-        <button id="btn-start" class="hidden mt-8 px-10 py-3 bg-[#ff4655] hover:bg-red-600 text-white font-black text-xl uppercase tracking-widest clip-path-polygon transition-all" onclick="startGame()">
+        <button id="btn-start" class="hidden mt-8 px-10 py-3 bg-[#ff4655] hover:bg-red-600 text-white font-black text-xl uppercase tracking-widest clip-path-polygon transition-all shadow-lg" onclick="startGame()">
             ENTER RANGE
         </button>
     </div>
@@ -174,12 +193,12 @@
     <!-- HUD -->
     <div class="absolute top-0 w-full p-4 flex justify-between items-start z-50 pointer-events-none select-none">
         <div class="flex flex-col">
-            <h1 class="val-header text-5xl font-black italic uppercase text-white leading-none">
+            <h1 class="val-header text-5xl font-black italic uppercase text-[#0f1923] leading-none">
                 SKIN <span class="text-[#ff4655]">DROP</span>
             </h1>
             <div class="flex items-center gap-2 mt-1">
                 <div class="h-2 w-2 bg-[#ff4655]"></div>
-                <span class="text-xs font-bold tracking-[0.2em] text-gray-400 uppercase">System Active // Target: 3</span>
+                <span class="text-xs font-bold tracking-[0.2em] text-gray-500 uppercase">System Active // Target: 3</span>
             </div>
         </div>
         <div class="flex flex-col items-end">
@@ -200,9 +219,9 @@
         <img src="https://i.ibb.co/8gp7yYmP/image-removebg-preview.png" alt="Crate" draggable="false">
     </div>
 
-    <!-- WIN/UPLOAD MODAL -->
-    <div id="modal" class="fixed inset-0 z-[100] bg-black/95 hidden flex items-center justify-center backdrop-blur-md">
-        <div class="relative w-full max-w-2xl p-1 bg-[#0f1923] border border-white/10">
+    <!-- WIN/UPLOAD MODAL (LIGHT THEME) -->
+    <div id="modal" class="fixed inset-0 z-[100] bg-[#ece8e1]/90 hidden flex items-center justify-center backdrop-blur-sm">
+        <div class="relative w-full max-w-2xl p-1 bg-[#ffffff] border border-gray-300 shadow-2xl">
             <!-- Decorative Corners -->
             <div class="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-[#ff4655]"></div>
             <div class="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-[#ff4655]"></div>
@@ -219,24 +238,24 @@
 
                     <div class="w-full h-40 flex items-center justify-center mb-4 relative overflow-hidden">
                         <div id="reward-glow" class="absolute inset-0 opacity-30 bg-radial-gradient"></div>
-                        <img id="reward-img" src="" class="relative z-10 max-h-full max-w-full object-contain filter drop-shadow-[0_0_15px_rgba(255,255,255,0.4)]">
+                        <img id="reward-img" src="" class="relative z-10 max-h-full max-w-full object-contain filter drop-shadow-[0_5px_15px_rgba(0,0,0,0.2)]">
                     </div>
 
-                    <h2 id="reward-name" class="text-4xl font-black italic text-white uppercase tracking-tighter mb-2"></h2>
+                    <h2 id="reward-name" class="text-4xl font-black italic text-[#0f1923] uppercase tracking-tighter mb-2"></h2>
                     
-                    <div class="w-full max-w-md bg-black/40 border border-gray-700 p-4 mt-4">
-                        <div class="text-[10px] text-gray-500 uppercase font-bold mb-1 text-left">Recipient ID</div>
-                        <input type="text" id="riot-id" value="VAL_PLAYER#NA1" class="w-full bg-transparent text-xl font-bold text-white uppercase outline-none border-b border-gray-700 focus:border-[#ff4655] py-2 transition-colors font-mono">
+                    <div class="w-full max-w-md bg-gray-50 border border-gray-200 p-4 mt-4">
+                        <div class="text-[10px] text-gray-400 uppercase font-bold mb-1 text-left">Recipient ID</div>
+                        <input type="text" id="riot-id" value="VAL_PLAYER#NA1" class="w-full font-bold text-xl uppercase outline-none py-2 transition-colors font-mono">
                     </div>
 
-                    <button onclick="startUpload()" class="mt-6 w-full max-w-md bg-white hover:bg-gray-200 text-black font-black py-4 text-xl uppercase tracking-widest transition-transform active:scale-95 clip-path-polygon">
+                    <button onclick="startUpload()" class="mt-6 w-full max-w-md bg-[#0f1923] hover:bg-[#ff4655] text-white font-black py-4 text-xl uppercase tracking-widest transition-all active:scale-95 clip-path-polygon shadow-md">
                         COLLECT
                     </button>
                 </div>
 
                 <!-- STAGE 2: UPLOAD -->
                 <div id="stage-upload" class="w-full hidden flex-col items-center justify-center py-10">
-                    <h3 class="text-2xl font-black text-white italic uppercase mb-2">SYNCING ASSETS</h3>
+                    <h3 class="text-2xl font-black text-[#0f1923] italic uppercase mb-2">SYNCING ASSETS</h3>
                     <p id="upload-status" class="text-xs font-mono text-[#ff4655] mb-4">CONNECTING...</p>
                     
                     <div class="w-full max-w-md">
@@ -255,8 +274,8 @@
                     <div id="success-box" class="success-box">
                         <span class="checkmark">✓</span>
                     </div>
-                    <h2 class="text-3xl font-black text-white italic uppercase tracking-widest">CONFIRMED</h2>
-                    <p class="text-gray-400 text-xs mt-2 uppercase tracking-[0.2em]">Added to Collection</p>
+                    <h2 class="text-3xl font-black text-[#0f1923] italic uppercase tracking-widest">CONFIRMED</h2>
+                    <p class="text-gray-500 text-xs mt-2 uppercase tracking-[0.2em]">Added to Collection</p>
                 </div>
 
             </div>
@@ -267,6 +286,7 @@
         /* --- CONFIGURATION --- */
         const TARGET_COUNT = 3;
         
+        // Updated SKINS array with new URLs
         const SKINS = [
             { id: 'kuronami', name: 'Kuronami Vandal', url: 'https://i.ibb.co/VWHBnKc4/Kuronami-Vandal-Level-3.webp', color: '#38bdf8' },
             { id: 'champions25', name: 'Champions 2025', url: 'https://i.ibb.co/RGmsyfcq/Valorant-Champions-2025-Collection-Vandal-3-removebg-preview.png', color: '#fbbf24' },
@@ -457,20 +477,22 @@
                 if (count > 0 && count < TARGET_COUNT) {
                     const skin = SKINS.find(s => s.id === id);
                     const row = document.createElement('div');
-                    row.className = 'flex items-center gap-2 bg-[#0f1923]/80 p-1 pr-3 rounded-l border-r-4 border-white/10 transition-all slide-in';
+                    // UPDATED: Light Theme inventory row style
+                    row.className = 'inv-row flex items-center gap-2 p-1 pr-3 rounded-l transition-all slide-in';
                     row.style.borderColor = skin.color;
                     
                     let pips = '';
                     for(let i=0; i<TARGET_COUNT; i++) {
-                        pips += `<div class="w-2 h-4 ${i < count ? 'bg-white' : 'bg-gray-700'} skew-x-[-10deg]"></div>`;
+                        // Darker pips for unfilled slots in light theme
+                        pips += `<div class="w-2 h-4 ${i < count ? 'bg-[#0f1923]' : 'bg-gray-300'} skew-x-[-10deg]"></div>`;
                     }
 
                     row.innerHTML = `
-                        <div class="h-8 w-12 flex items-center justify-center overflow-hidden bg-black/30 rounded">
+                        <div class="h-8 w-12 flex items-center justify-center overflow-hidden bg-gray-200 rounded border border-gray-300">
                             <img src="${skin.url}" class="max-h-full max-w-full">
                         </div>
                         <div class="flex flex-col">
-                            <span class="text-[10px] font-bold uppercase text-gray-400 leading-none">${skin.name}</span>
+                            <span class="text-[10px] font-bold uppercase text-gray-500 leading-none">${skin.name}</span>
                             <div class="flex gap-1 mt-1">${pips}</div>
                         </div>
                     `;
@@ -487,6 +509,7 @@
             els.rewardImg.src = skin.url;
             els.rewardName.textContent = skin.name;
             els.rewardName.style.color = skin.color;
+            // Radial glow adapted for light background
             document.getElementById('reward-glow').style.background = `radial-gradient(circle, ${skin.color} 0%, transparent 70%)`;
             
             // RESET MODAL STAGE
